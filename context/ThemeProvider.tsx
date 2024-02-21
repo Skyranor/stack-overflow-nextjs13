@@ -1,15 +1,32 @@
-'use client';
-import React, { ReactNode, createContext, useState } from 'react';
+"use client";
+import { getDefaultTheme } from "@/lib/utils";
+import { ThemeValue } from "@/types";
+import { ReactNode, useState, useEffect, createContext } from "react";
 
-export type Theme = 'light' | 'dark';
 interface ThemeContextType {
-  theme?: Theme;
-  setTheme?: (theme: Theme) => void;
+  theme: ThemeValue;
+  setTheme: (theme: ThemeValue) => void;
 }
-export const ThemeContext = createContext<ThemeContextType>({});
 
-export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>('light');
+interface ThemeProviderProps {
+  children: ReactNode;
+}
 
-  return <ThemeContext.Provider value={{ theme, setTheme }}>{children}</ThemeContext.Provider>;
+export const ThemeContext = createContext<ThemeContextType>({
+  theme: "light",
+  setTheme: () => {},
+});
+
+export const ThemeProvider = ({ children }: ThemeProviderProps) => {
+  const localStorageTheme = localStorage.getItem("theme") as ThemeValue;
+
+  const [theme, setTheme] = useState<ThemeValue>(
+    localStorageTheme || getDefaultTheme,
+  );
+
+  return (
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
 };
