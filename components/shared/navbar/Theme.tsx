@@ -10,15 +10,21 @@ import {
 } from "@/components/ui/menubar";
 import { themes } from "@/constants";
 import clsx from "clsx";
+import { getDefaultTheme } from "@/lib/utils";
 
 export const Theme = () => {
   const { theme, setTheme } = useTheme();
 
+  let themeValue = theme;
+  if (theme === "system") {
+    themeValue = getDefaultTheme();
+  }
+
   return (
     <Menubar className="relative border-none bg-transparent shadow-none">
       <MenubarMenu>
-        <MenubarTrigger className="focus:bg-light-900 data-[state=open]:bg-light-900 dark:focus:bg-dark-200 dark:data-[state=open]:bg-dark-200:">
-          {theme === "light" ? (
+        <MenubarTrigger className="dark:data-[state=open]:bg-dark-200: focus:bg-light-900 data-[state=open]:bg-light-900 dark:focus:bg-dark-200">
+          {themeValue === "light" ? (
             <Image
               src="/assets/icons/sun.svg"
               alt="sun"
@@ -61,14 +67,6 @@ export const Theme = () => {
               </p>
             </MenubarItem>
           ))}
-          {/* <MenubarItem>
-            New Tab <MenubarShortcut>⌘T</MenubarShortcut>
-          </MenubarItem>
-          <MenubarItem>New Window</MenubarItem>
-          <MenubarSeparator />
-          <MenubarItem>Share</MenubarItem>
-          <MenubarSeparator />
-          <MenubarItem>Print</MenubarItem> */}
         </MenubarContent>
       </MenubarMenu>
     </Menubar>

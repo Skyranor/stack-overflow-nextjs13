@@ -62,12 +62,12 @@ export const MobileNav = () => {
         <Link href="/" className="flex items-center gap-1">
           <Image
             src={"/assets/images/site-logo.svg"}
-            alt={"DevFlow"}
+            alt={"BaryshevFlow"}
             width={23}
             height={23}
           />
           <p className="h2-bold  text-dark100_light900 font-spaceGrotesk">
-            Dev
+            Baryshev
             <span className="text-primary-500">Overflow</span>
           </p>
         </Link>

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { ReactNode } from "react";
@@ -18,7 +19,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "DevFlow",
+  title: "BaryshevFlow",
   description:
     "A community-driven platform for developers and answering programming questions. Get help, share knowledge, and collaborate with developers from around the world. Explore topics in web development, mobile app development, algorithms, data structures, and more.",
   icons: {
