@@ -15,7 +15,7 @@ import { usePathname } from "next/navigation";
 const NavContent = () => {
   const pathname = usePathname();
   return (
-    <section className="flex min-h-dvh flex-col gap-6 pt-16">
+    <section className="flex flex-col gap-6 pt-16">
       {sidebarLinks.map((item) => {
         const isActive = item.route === pathname;
 
@@ -62,12 +62,12 @@ export const MobileNav = () => {
         <Link href="/" className="flex items-center gap-1">
           <Image
             src={"/assets/images/site-logo.svg"}
-            alt={"DevFlow"}
+            alt={"BaryshevOverflow"}
             width={23}
             height={23}
           />
           <p className="h2-bold  text-dark100_light900 font-spaceGrotesk">
-            Dev
+            Baryshev
             <span className="text-primary-500">Overflow</span>
           </p>
         </Link>
