@@ -1,7 +1,7 @@
 import { ThemeContext } from "@/context/ThemeProvider";
 import { getDefaultTheme } from "@/lib/utils";
 import { ThemeValue } from "@/types";
-import { useCallback, useContext, useEffect, useLayoutEffect } from "react";
+import { useContext, useEffect } from "react";
 
 interface UseTheme {
   theme: ThemeValue;
@@ -35,6 +35,7 @@ export const useTheme = (): UseTheme => {
 
   useEffect(() => {
     handleChangeTheme();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [theme]);
 
   return {

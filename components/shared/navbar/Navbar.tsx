@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
-import { SignIn, UserButton } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 
 import { GlobalSearch } from "../search/GlobalSearch";
 import { Theme } from "./Theme";
@@ -13,12 +13,12 @@ export const Navbar = () => {
       <Link href="/" className="flex items-center gap-1">
         <Image
           src={"/assets/images/site-logo.svg"}
-          alt={"DevFlow"}
+          alt={"BaryshevOverflow"}
           width={23}
           height={23}
         />
         <p className="h2-bold font-spaceGrotesk text-dark-100 dark:text-light-900 max-sm:hidden">
-          Dev
+          Baryshev
           <span className="text-primary-500">Overflow</span>
         </p>
       </Link>

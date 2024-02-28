@@ -1,7 +1,6 @@
 "use client";
 import { sidebarLinks } from "@/constants";
 import Link from "next/link";
-import { SheetClose } from "../ui/sheet";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { SignedOut } from "@clerk/nextjs";
