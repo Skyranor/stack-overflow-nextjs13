@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Field, FieldName, FieldPathByValue, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
@@ -18,17 +18,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { QuestionsSchema } from "@/lib/validations";
-import { Tag } from "lucide-react";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
 
-const type: any = "create";
+const type: string = "create";
 
 export const Question = () => {
   const editorRef = useRef<null | Editor>(null);
 
   // 1. Define your form.
-  const { formState, ...form } = useForm<z.infer<typeof QuestionsSchema>>({
+  const form = useForm<z.infer<typeof QuestionsSchema>>({
     resolver: zodResolver(QuestionsSchema),
     defaultValues: {
       title: "",
@@ -37,7 +36,7 @@ export const Question = () => {
     },
   });
 
-  const { isSubmitting } = formState;
+  const { isSubmitting } = form.formState;
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof QuestionsSchema>) {
@@ -77,6 +76,7 @@ export const Question = () => {
     }
   };
 
+  //@ts-ignore next-line
   const handleTagRemove = (tag: string, field: any) => {
     const newTags = field.value.filter((t: string) => t !== tag);
     form.setValue("tags", newTags);
