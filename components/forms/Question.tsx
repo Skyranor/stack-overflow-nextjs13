@@ -20,11 +20,20 @@ import { Input } from "@/components/ui/input";
 import { QuestionsSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
+import { createQuestion } from "@/lib/actions/question.action";
+import { useRouter, usePathname } from "next/navigation";
 
 const type: string = "create";
 
-export const Question = () => {
+interface Props {
+  mongoUserId: string;
+}
+
+export const Question = ({ mongoUserId }: Props) => {
   const editorRef = useRef<null | Editor>(null);
+
+  const router = useRouter();
+  const pathname = usePathname();
 
   // 1. Define your form.
   const { ...form } = useForm<z.infer<typeof QuestionsSchema>>({
@@ -39,11 +48,19 @@ export const Question = () => {
   const { isSubmitting } = form.formState;
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof QuestionsSchema>) {
+  async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
     try {
       // make an async call to your API -> create a question
       // contain all form data
       //navigate to home page
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+      });
+
+      router.push("/");
     } catch (error) {}
   }
 
@@ -121,11 +138,12 @@ export const Question = () => {
               </FormLabel>
               <FormControl className="mt-3.5">
                 <Editor
-                  apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
+                  apiKey={process.env.NEXT_TINY_EDITOR_API_KEY}
                   onInit={(evt, editor) =>
                     (editorRef.current = editor as unknown as Editor)
                   }
-                  initialValue=""
+                  onBlur={field.onBlur}
+                  onEditorChange={field.onChange}
                   init={{
                     height: 350,
                     menubar: false,
