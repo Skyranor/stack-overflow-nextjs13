@@ -58,6 +58,7 @@ export const Question = ({ mongoUserId }: Props) => {
         content: values.explanation,
         tags: values.tags,
         author: JSON.parse(mongoUserId),
+        path: pathname,
       });
 
       router.push("/");
@@ -138,7 +139,7 @@ export const Question = ({ mongoUserId }: Props) => {
               </FormLabel>
               <FormControl className="mt-3.5">
                 <Editor
-                  apiKey={process.env.NEXT_TINY_EDITOR_API_KEY}
+                  apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
                   onInit={(evt, editor) =>
                     (editorRef.current = editor as unknown as Editor)
                   }
