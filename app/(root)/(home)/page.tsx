@@ -36,23 +36,24 @@ const Home = async () => {
       <div className="mt-10 flex w-full flex-col gap-6">
         {questions.length > 0 ? (
           questions.map((item) => (
-            <QuestionCard
-              key={item.id}
-              createdAt={item.createdAt}
-              title={item.title}
-              id={item.id}
-              author={item.author}
-              upVotes={item.upVotes}
-              views={item.views}
-              answers={item.answers}
-              tags={
-                item.tags as {
-                  id: number;
-                  name: string;
-                  picture: string;
-                }[]
-              }
-            />
+            // <QuestionCard
+            //   key={item.id}
+            //   createdAt={item.createdAt}
+            //   title={item.title}
+            //   id={item.id}
+            //   author={item.author}
+            //   upVotes={item.upVotes}
+            //   views={item.views}
+            //   answers={item.answers}
+            //   tags={
+            //     item.tags as {
+            //       id: number;
+            //       name: string;
+            //       picture: string;
+            //     }[]
+            //   }
+            // />
+            <div>Hello</div>
           ))
         ) : (
           <NoResult

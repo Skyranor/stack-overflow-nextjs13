@@ -8,8 +8,7 @@ const Page = async () => {
 
   if (!userId) redirect("/sign-in");
 
-  const mongoUser = await getUserById({ userId: 12345 });
-  console.log(mongoUser);
+  const mongoUser = await getUserById({ userId });
   return (
     <div>
       <h1 className="h1-bold text-dark100_light900">Ask a Question</h1>
