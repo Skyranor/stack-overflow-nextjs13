@@ -50,7 +50,7 @@ export const QuestionCard = ({
       </div>
       <div className="mt-3.5 flex flex-wrap gap-2">
         {tags.map((item) => (
-          <RenderTag key={item.id} _id={item.id} name={item.name} />
+          <RenderTag key={item.id} id={item.id} name={item.name} />
         ))}
       </div>
 

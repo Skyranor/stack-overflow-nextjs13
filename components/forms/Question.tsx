@@ -4,9 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { useRef } from "react";
+import { useRef, KeyboardEvent } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import { KeyboardEvent } from "react";
 import {
   Form,
   FormControl,
@@ -52,7 +51,7 @@ export const Question = ({ mongoUserId }: Props) => {
     try {
       // make an async call to your API -> create a question
       // contain all form data
-      //navigate to home page
+      // navigate to home page
       await createQuestion({
         title: values.title,
         content: values.explanation,
@@ -94,7 +93,7 @@ export const Question = ({ mongoUserId }: Props) => {
     }
   };
 
-  //@ts-ignore next-line
+  // @ts-ignore next-line
   const handleTagRemove = (tag: string, field: any) => {
     const newTags = field.value.filter((t: string) => t !== tag);
     form.setValue("tags", newTags);
