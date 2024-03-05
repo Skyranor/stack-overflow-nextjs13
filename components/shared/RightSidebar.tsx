@@ -5,42 +5,42 @@ import { RenderTag } from "./RenderTag";
 
 const hotQuestions = [
   {
-    _id: "1",
+    id: "1",
     title: "What is the best way to get started with Next.js?",
   },
   {
-    _id: "2",
+    id: "2",
     title: "How do I use Next.js?",
   },
   {
-    _id: "3",
+    id: "3",
     title: "How do I deploy Next.js?",
   },
 ];
 
 const popularTags = [
   {
-    _id: 1,
+    id: 1,
     name: "Next.js",
     totalQuestions: 5,
   },
   {
-    _id: 2,
+    id: 2,
     name: "React.js",
     totalQuestions: 9,
   },
   {
-    _id: 3,
+    id: 3,
     name: "Node.js",
     totalQuestions: 2,
   },
   {
-    _id: 4,
+    id: 4,
     name: "Tailwind CSS",
     totalQuestions: 1,
   },
   {
-    _id: 5,
+    id: 5,
     name: "Typescript",
     totalQuestions: 1,
   },
@@ -112,8 +112,8 @@ export const RightSidebar = () => {
           {hotQuestions.map((item) => {
             return (
               <Link
-                key={item._id}
-                href={`/questions/${item._id}`}
+                key={item.id}
+                href={`/questions/${item.id}`}
                 className="flex cursor-pointer items-center justify-between gap-7"
               >
                 <p className="body-medium text-dark500_light700">
@@ -136,8 +136,8 @@ export const RightSidebar = () => {
         <div className="mt-7 flex flex-col gap-4">
           {popularTags.map((item) => (
             <RenderTag
-              key={item._id}
-              id={item._id}
+              key={item.id}
+              id={item.id}
               name={item.name}
               totalQuestions={item.totalQuestions}
               showCount

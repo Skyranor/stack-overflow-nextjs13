@@ -9,7 +9,7 @@ interface Props {
   author: {
     name: string;
     picture: string;
-    _id: string | number;
+    id: string | number;
   };
   upVotes: number;
   views: number;
@@ -60,7 +60,7 @@ export const QuestionCard = ({
           alt="User"
           value={author.name || "Anonymous"}
           title={` - asked ${getTimestamp(createdAt)}`}
-          href={`/profile/${author._id}`}
+          href={`/profile/${author.id}`}
           textStyles="body-medium text-dark400_light700"
           isAuthor
         />

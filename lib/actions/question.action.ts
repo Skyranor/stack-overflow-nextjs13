@@ -49,16 +49,16 @@ export async function createQuestion(params: CreateQuestionParams) {
         {
           name: { $regex: new RegExp(`^${tag}$`, "i") },
         },
-        { $setOnInsert: { name: tag }, $push: { questions: question._id } },
+        { $setOnInsert: { name: tag }, $push: { questions: question.id } },
         {
           upsert: true,
           new: true,
         },
       );
-      tagDocuments.push(existingTag._id);
+      tagDocuments.push(existingTag.id);
     }
 
-    await Question.findByIdAndUpdate(question._id, {
+    await Question.findByIdAndUpdate(question.id, {
       $push: { tags: { $each: tagDocuments } },
     });
 
