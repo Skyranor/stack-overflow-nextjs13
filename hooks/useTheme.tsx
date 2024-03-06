@@ -10,7 +10,11 @@ interface UseTheme {
 
 export const useTheme = (): UseTheme => {
   const { theme, setTheme } = useContext(ThemeContext);
-  const defaultTheme = getDefaultTheme();
+
+  let themeValue = theme;
+  if (theme === "system") {
+    themeValue = getDefaultTheme();
+  }
 
   const handleChangeTheme = () => {
     switch (theme) {
@@ -26,20 +30,19 @@ export const useTheme = (): UseTheme => {
         break;
       default:
         document.body.classList.remove(
-          defaultTheme === "dark" ? "light" : "dark",
+          themeValue === "dark" ? "light" : "dark",
         );
-        document.body.classList.add(defaultTheme);
-        localStorage.setItem("theme", defaultTheme);
+        document.body.classList.add(themeValue);
+        localStorage.setItem("theme", themeValue);
     }
   };
 
   useEffect(() => {
     handleChangeTheme();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [theme]);
 
   return {
-    theme,
+    theme: themeValue,
     setTheme,
   };
 };

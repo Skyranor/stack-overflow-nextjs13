@@ -15,16 +15,11 @@ import { getDefaultTheme } from "@/lib/utils";
 export const Theme = () => {
   const { theme, setTheme } = useTheme();
 
-  let themeValue = theme;
-  if (theme === "system") {
-    themeValue = getDefaultTheme();
-  }
-
   return (
     <Menubar className="relative border-none bg-transparent shadow-none">
       <MenubarMenu>
         <MenubarTrigger className="dark:data-[state=open]:bg-dark-200: focus:bg-light-900 data-[state=open]:bg-light-900 dark:focus:bg-dark-200">
-          {themeValue === "light" ? (
+          {theme === "light" ? (
             <Image
               src="/assets/icons/sun.svg"
               alt="sun"

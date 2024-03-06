@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const getDefaultTheme = (): ThemeValue => {
+export const getDefaultTheme = (): Exclude<ThemeValue, "system"> => {
   return window.matchMedia("(prefers-color-scheme: dark)").matches
     ? "dark"
     : "light";

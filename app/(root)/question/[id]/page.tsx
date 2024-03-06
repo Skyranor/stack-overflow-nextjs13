@@ -63,7 +63,7 @@ const Page = async ({ params, searchParams }) => {
 
       <ParseHTML data={result.content} />
 
-      <div className="mt-8 flex flex-wrap gap-2">
+      <div className="mb-10 mt-8 flex flex-wrap gap-2">
         {result.tags.map((item: any) => (
           <RenderTag id={item.id} name={item.name} key={item.id} />
         ))}
