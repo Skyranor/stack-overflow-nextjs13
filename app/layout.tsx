@@ -1,10 +1,10 @@
-/* eslint-disable camelcase */
 import { ClerkProvider } from "@clerk/nextjs";
-import "./globals.css";
 import { ReactNode } from "react";
 import { Inter, Space_Grotesk } from "next/font/google";
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/context/ThemeProvider";
+import "./globals.css";
+import "../styles/prism.css";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,9 +22,6 @@ export const metadata: Metadata = {
   title: "BaryshevOverflow",
   description:
     "A community-driven platform for developers and answering programming questions. Get help, share knowledge, and collaborate with developers from around the world. Explore topics in web development, mobile app development, algorithms, data structures, and more.",
-  icons: {
-    // icon: '../public/assets/images/site-logo.svg',
-  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -42,7 +39,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <ThemeProvider>{children}</ThemeProvider>
         </ClerkProvider>
       </body>
-      {/* <h3 className='h3-bold'> Welcome to Next.js 13</h3> */}
     </html>
   );
 }
