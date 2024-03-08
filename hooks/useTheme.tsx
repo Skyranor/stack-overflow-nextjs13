@@ -1,3 +1,4 @@
+"use client";
 import { ThemeContext } from "@/context/ThemeProvider";
 import { getDefaultTheme } from "@/lib/utils";
 import { ThemeValue } from "@/types";
