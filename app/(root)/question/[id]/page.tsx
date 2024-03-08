@@ -1,16 +1,27 @@
 import { Answer } from "@/components/forms/Answer";
+import { AllAnswers } from "@/components/shared/AllAnswers";
 import { Metric } from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
 import { RenderTag } from "@/components/shared/RenderTag";
+import { Votes } from "@/components/shared/Votes";
 import { getQuestionById } from "@/lib/actions/question.action";
+import { getUserById } from "@/lib/actions/user.action";
 import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
+import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 
+// @ts-ignore
 const Page = async ({ params, searchParams }) => {
-  console.log(searchParams);
   const result = await getQuestionById({ questionId: params.id });
-  console.log(result);
+  const { userId: clerkId } = auth();
+
+  let mongoUser;
+
+  if (clerkId) {
+    mongoUser = await getUserById({ userId: clerkId });
+  }
+
   return (
     <>
       <div className="flex-start w-full flex-col">
@@ -30,7 +41,9 @@ const Page = async ({ params, searchParams }) => {
               {result.author.name}
             </p>
           </Link>
-          <div className="flex justify-end ">Voiting</div>
+          <div className="flex justify-end ">
+            <Votes />
+          </div>
         </div>
         <h2 className="h2-semibold text-dark200_light900 mt-3.5 w-full text-left">
           {result.title}
@@ -69,7 +82,17 @@ const Page = async ({ params, searchParams }) => {
         ))}
       </div>
 
-      <Answer />
+      <AllAnswers
+        userId={result.author.clerkId}
+        totalAnswers={result.answers.length}
+        questionId={result.id}
+      />
+
+      <Answer
+        question={result.content}
+        questionId={JSON.stringify(result.id)}
+        authorId={JSON.stringify(mongoUser.id)}
+      />
     </>
   );
 };

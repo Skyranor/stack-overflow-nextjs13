@@ -15,10 +15,19 @@ import { useRef } from "react";
 import { useTheme } from "@/hooks/useTheme";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import { createAnswer } from "@/lib/actions/answer.action";
+import { usePathname } from "next/navigation";
 
-export const Answer = () => {
+interface Props {
+  question: string;
+  questionId: string;
+  authorId: string;
+}
+
+export const Answer = ({ authorId, question, questionId }: Props) => {
+  const pathname = usePathname();
   const { theme } = useTheme();
-  console.log(theme);
+
   const form = useForm<z.infer<typeof AnswerSchema>>({
     resolver: zodResolver(AnswerSchema),
     defaultValues: {
@@ -28,13 +37,28 @@ export const Answer = () => {
 
   const editorRef = useRef<null | Editor>(null);
 
-  const handleCreateAnswer = (data) => {
-    console.log(data);
+  const handleCreateAnswer = async (values: z.infer<typeof AnswerSchema>) => {
+    try {
+      await createAnswer({
+        content: values.answer,
+        author: JSON.parse(authorId),
+        question: JSON.parse(questionId),
+        path: pathname,
+      });
+
+      form.reset();
+
+      if (editorRef.current) {
+        const editor = editorRef.current;
+        // @ts-ignore
+        editor.setContent("");
+      }
+    } catch (error) {}
   };
 
   return (
     <div>
-      <div className="sm:gap:2 flex flex-col justify-between sm:flex-row sm:items-center">
+      <div className="flex flex-col justify-between sm:flex-row sm:items-center sm:gap-2">
         <h4 className="paragraph-semibold text-dark400_light800">
           Write your answer here
         </h4>
@@ -55,7 +79,7 @@ export const Answer = () => {
 
       <Form {...form}>
         <form
-          className="gap:10 mt-6 flex w-full flex-col"
+          className="mt-6 flex w-full flex-col gap-10"
           onSubmit={form.handleSubmit(handleCreateAnswer)}
         >
           <FormField
