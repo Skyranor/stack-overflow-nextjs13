@@ -6,6 +6,7 @@ import {
   CreateQuestionParams,
   GetQuestionByIdParams,
   GetQuestionsParams,
+  QuestionVoteParams,
 } from "./shared.types";
 import User from "@/database/user.model";
 import { revalidatePath } from "next/cache";
@@ -88,6 +89,83 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
         model: User,
         select: "id clerkId name picture",
       });
+    return question;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function upVoteQuestion(params: QuestionVoteParams) {
+  try {
+    connectToDatabase();
+
+    const { questionId, userId, hasDownVoted, hasUpVoted, path } = params;
+
+    let updateQuery = {};
+
+    if (hasUpVoted) {
+      updateQuery = {
+        $pull: { upVotes: userId },
+      };
+    } else if (hasDownVoted) {
+      updateQuery = {
+        $push: { downVotes: userId },
+        $pull: { upVotes: userId },
+      };
+    } else {
+      updateQuery = {
+        $addToSet: { upVotes: userId },
+      };
+    }
+    const question = await Question.findByIdAndUpdate(questionId, updateQuery, {
+      new: true,
+    });
+
+    if (!question) {
+      throw new Error("Question not found");
+    }
+    // TODO: Increment author's reputation by +5 for upVoting a question
+
+    revalidatePath(path);
+    return question;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function downVoteQuestion(params: QuestionVoteParams) {
+  try {
+    connectToDatabase();
+
+    const { questionId, userId, hasDownVoted, hasUpVoted, path } = params;
+    let updateQuery = {};
+
+    if (hasDownVoted) {
+      updateQuery = {
+        $pull: { downVotes: userId },
+      };
+    } else if (hasUpVoted) {
+      updateQuery = {
+        $pull: { upVotes: userId },
+        $push: { downVotes: userId },
+      };
+    } else {
+      updateQuery = {
+        $addToSet: { downVotes: userId },
+      };
+    }
+
+    const question = await Question.findByIdAndUpdate(questionId, updateQuery, {
+      new: true,
+    });
+
+    if (!question) {
+      throw new Error("Question not found");
+    }
+    // TODO: Increment author's reputation by -5 for downVoting a question
+    revalidatePath(path);
     return question;
   } catch (error) {
     console.log(error);
