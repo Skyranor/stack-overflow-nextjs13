@@ -110,8 +110,8 @@ export async function upVoteQuestion(params: QuestionVoteParams) {
       };
     } else if (hasDownVoted) {
       updateQuery = {
-        $push: { downVotes: userId },
-        $pull: { upVotes: userId },
+        $push: { upVotes: userId },
+        $pull: { downVotes: userId },
       };
     } else {
       updateQuery = {

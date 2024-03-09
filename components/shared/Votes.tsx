@@ -1,6 +1,11 @@
 "use client";
+import {
+  downVoteQuestion,
+  upVoteQuestion,
+} from "@/lib/actions/question.action";
 import { formatAndDivideNumber } from "@/lib/utils";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 
 interface Props {
   type: string;
@@ -25,9 +30,58 @@ export const Votes = (props: Props) => {
     hasSaved,
   } = props;
 
+  const router = useRouter();
+  const pathname = usePathname();
+
   const handleSave = () => {};
 
-  const handleVote = (action: string) => {};
+  const handleVote = async (action: string) => {
+    console.log(itemId, userId);
+    if (!userId) return;
+    if (action === "upVote") {
+      if (type === "Question") {
+        await upVoteQuestion({
+          hasDownVoted,
+          hasUpVoted,
+          userId,
+          questionId: itemId,
+          path: pathname,
+        });
+      } else if (type === "Answer") {
+        // await upVoteAnswer({
+        //   hasDownVoted,
+        //   hasUpVoted,
+        //   answerId: JSON.parse(itemId),
+        //   userId: JSON.parse(userId),
+        //   path: pathname,
+        // })
+      }
+
+      // TODO: show a toast
+    }
+
+    if (action === "downVote") {
+      if (type === "Question") {
+        await downVoteQuestion({
+          hasDownVoted,
+          hasUpVoted,
+          userId,
+          questionId: itemId,
+          path: pathname,
+        });
+      } else if (type === "Answer") {
+        // await downVoteAnswer({
+        //   hasDownVoted,
+        //   hasUpVoted,
+        //   answerId: JSON.parse(itemId),
+        //   userId: JSON.parse(userId),
+        //   path: pathname,
+        // })
+      }
+
+      // TODO: show a toast
+    }
+  };
   return (
     <div className="flex gap-5">
       <div className="flex-center gap-2.5">
@@ -42,9 +96,7 @@ export const Votes = (props: Props) => {
             width={18}
             height={18}
             className="cursor-pointer"
-            onClick={() => {
-              // TODO: Implement up vote
-            }}
+            onClick={() => handleVote("upVote")}
           />
           <div className="flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1">
             <p className="subtle-medium text-dark400_light900">
@@ -64,9 +116,7 @@ export const Votes = (props: Props) => {
             width={18}
             height={18}
             className="cursor-pointer"
-            onClick={() => {
-              // TODO:
-            }}
+            onClick={() => handleVote("downVote")}
           />
           <div className="flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1">
             <p className="subtle-medium text-dark400_light900">

@@ -43,7 +43,7 @@ const Page = async ({ params, searchParams }) => {
           </Link>
           <div className="flex justify-end ">
             <Votes
-              type="question"
+              type="Question"
               itemId={result.id}
               userId={mongoUser?.id}
               upVotes={result.upVotes.length}
