@@ -44,8 +44,8 @@ const Page = async ({ params, searchParams }) => {
           <div className="flex justify-end ">
             <Votes
               type="Question"
-              itemId={result.id}
-              userId={mongoUser?.id}
+              itemId={JSON.stringify(result.id)}
+              userId={JSON.stringify(mongoUser.id)}
               upVotes={result.upVotes.length}
               downVotes={result.downVotes.length}
               hasUpVoted={result.upVotes.includes(mongoUser?.id)}
@@ -92,7 +92,7 @@ const Page = async ({ params, searchParams }) => {
       </div>
 
       <AllAnswers
-        userId={result.author.clerkId}
+        userId={mongoUser.id}
         totalAnswers={result.answers.length}
         questionId={result.id}
       />

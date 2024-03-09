@@ -1,4 +1,5 @@
 "use client";
+import { downVoteAnswer, upVoteAnswer } from "@/lib/actions/answer.action";
 import {
   downVoteQuestion,
   upVoteQuestion,
@@ -36,25 +37,24 @@ export const Votes = (props: Props) => {
   const handleSave = () => {};
 
   const handleVote = async (action: string) => {
-    console.log(itemId, userId);
     if (!userId) return;
     if (action === "upVote") {
       if (type === "Question") {
         await upVoteQuestion({
           hasDownVoted,
           hasUpVoted,
-          userId,
-          questionId: itemId,
+          userId: JSON.parse(userId),
+          questionId: JSON.parse(itemId),
           path: pathname,
         });
       } else if (type === "Answer") {
-        // await upVoteAnswer({
-        //   hasDownVoted,
-        //   hasUpVoted,
-        //   answerId: JSON.parse(itemId),
-        //   userId: JSON.parse(userId),
-        //   path: pathname,
-        // })
+        await upVoteAnswer({
+          hasDownVoted,
+          hasUpVoted,
+          answerId: JSON.parse(itemId),
+          userId: JSON.parse(userId),
+          path: pathname,
+        });
       }
 
       // TODO: show a toast
@@ -65,18 +65,18 @@ export const Votes = (props: Props) => {
         await downVoteQuestion({
           hasDownVoted,
           hasUpVoted,
-          userId,
-          questionId: itemId,
+          userId: JSON.parse(userId),
+          questionId: JSON.parse(itemId),
           path: pathname,
         });
       } else if (type === "Answer") {
-        // await downVoteAnswer({
-        //   hasDownVoted,
-        //   hasUpVoted,
-        //   answerId: JSON.parse(itemId),
-        //   userId: JSON.parse(userId),
-        //   path: pathname,
-        // })
+        await downVoteAnswer({
+          hasDownVoted,
+          hasUpVoted,
+          answerId: JSON.parse(itemId),
+          userId: JSON.parse(userId),
+          path: pathname,
+        });
       }
 
       // TODO: show a toast
@@ -126,20 +126,22 @@ export const Votes = (props: Props) => {
         </div>
       </div>
 
-      <Image
-        src={
-          hasSaved
-            ? "/assets/icons/star-filled.svg"
-            : "/assets/icons/star-red.svg"
-        }
-        alt="star"
-        width={18}
-        height={18}
-        className="cursor-pointer"
-        onClick={() => {
-          // TODO: I
-        }}
-      />
+      {type === "Question" && (
+        <Image
+          src={
+            hasSaved
+              ? "/assets/icons/star-filled.svg"
+              : "/assets/icons/star-red.svg"
+          }
+          alt="star"
+          width={18}
+          height={18}
+          className="cursor-pointer"
+          onClick={() => {
+            // TODO: I
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -42,7 +42,7 @@ const Home = async () => {
               title={item.title}
               id={item.id}
               author={item.author}
-              upVotes={item.upVotes}
+              upVotes={item.upVotes.length}
               views={item.views}
               answers={item.answers}
               tags={
