@@ -50,7 +50,7 @@ const Page = async ({ params, searchParams }) => {
               downVotes={result.downVotes.length}
               hasUpVoted={result.upVotes.includes(mongoUser?.id)}
               hasDownVoted={result.downVotes.includes(mongoUser?.id)}
-              hasSaved={mongoUser.saved.includes(mongoUser?.id)}
+              hasSaved={mongoUser.saved.includes(result.id)}
             />
           </div>
         </div>
