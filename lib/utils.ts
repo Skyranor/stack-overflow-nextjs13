@@ -60,3 +60,12 @@ export const formatAndDivideNumber = (number: number) => {
     return number.toString();
   }
 };
+
+export const getJoinedDate = (date: Date) => {
+  const month = date.toLocaleDateString("default", { month: "long" });
+  const year = date.getFullYear();
+
+  const joinedDate = `${month} ${year}`;
+
+  return joinedDate;
+};
