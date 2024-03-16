@@ -21,6 +21,7 @@ interface Props {
     name: string;
     picture: string;
   }[];
+  clerkId?: string | null;
 }
 
 export const QuestionCard = ({
@@ -32,6 +33,7 @@ export const QuestionCard = ({
   views,
   tags,
   id,
+  clerkId,
 }: Props) => {
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11">

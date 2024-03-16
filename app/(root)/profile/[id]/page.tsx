@@ -9,7 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProfileLink } from "@/components/shared/ProfileLink";
 import { Stats } from "@/components/shared/Stats";
-import { QuestionTab } from "@/components/shared/QuestionTab";
+import { QuestionsTab } from "@/components/shared/QuestionsTab";
 
 const Page = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
@@ -97,7 +97,11 @@ const Page = async ({ params, searchParams }: URLProps) => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="top-posts">
-            <QuestionTab />
+            <QuestionsTab
+              searchParams={searchParams}
+              userId={user.id}
+              clerkId={clerkId}
+            />
           </TabsContent>
           <TabsContent value="answers"> AnswersTab </TabsContent>
         </Tabs>
