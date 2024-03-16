@@ -181,12 +181,12 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
         {
           path: "tags",
           model: Tag,
-          select: "id name",
+          select: "_id name",
         },
         {
           path: "author",
           model: User,
-          select: "id clerkId name picture",
+          select: "_id clerkId name picture",
         },
       ],
     });
@@ -246,12 +246,41 @@ export async function getUserQuestions(params: GetUserStatsParams) {
         views: -1,
         upVotes: -1,
       })
-      .populate("tags", "id name")
-      .populate("author", "id clerkId name picture");
+      .populate("tags", "_id name")
+      .populate("author", "_id clerkId name picture");
 
     return {
       totalQuestions,
       questions: userQuestions,
+    };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function getUserAnswers(params: GetUserStatsParams) {
+  try {
+    connectToDatabase();
+
+    const { userId, page = 1, pageSize = 10 } = params;
+
+    const totalAnswers = await Answer.countDocuments({
+      author: userId,
+    });
+
+    const userAnswers = await Answer.find({
+      author: userId,
+    })
+      .sort({
+        upVotes: -1,
+      })
+      .populate("question", "_id title")
+      .populate("author", "_id clerkId name picture");
+
+    return {
+      totalAnswers,
+      answers: userAnswers,
     };
   } catch (error) {
     console.log(error);

@@ -70,8 +70,8 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
         },
       },
       populate: [
-        { path: "tags", model: Tag, select: "id name" },
-        { path: "author", model: User, select: "id clerkId name picture" },
+        { path: "tags", model: Tag, select: "_id name" },
+        { path: "author", model: User, select: "_id clerkId name picture" },
       ],
     });
 
