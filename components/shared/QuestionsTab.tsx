@@ -21,7 +21,7 @@ export const QuestionsTab = async ({
     <>
       {result.questions.map((item) => (
         <QuestionCard
-          key={item.id}
+          key={item._id}
           answers={item.answers}
           author={item.author}
           createdAt={item.createdAt}
@@ -29,7 +29,7 @@ export const QuestionsTab = async ({
           upVotes={item.upVotes.length}
           views={item.views}
           tags={item.tags}
-          id={item.id}
+          id={item._id}
           clerkId={clerkId}
         />
       ))}

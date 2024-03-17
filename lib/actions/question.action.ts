@@ -4,12 +4,15 @@ import { connectToDatabase } from "../mongoose";
 import Tag from "@/database/tag.model";
 import {
   CreateQuestionParams,
+  DeleteQuestionParams,
   GetQuestionByIdParams,
   GetQuestionsParams,
   QuestionVoteParams,
 } from "./shared.types";
 import User from "@/database/user.model";
 import { revalidatePath } from "next/cache";
+import Answer from "@/database/answer.model";
+import Interaction from "@/database/interaction.model";
 
 export async function getQuestions(params: GetQuestionsParams) {
   try {
@@ -167,6 +170,32 @@ export async function downVoteQuestion(params: QuestionVoteParams) {
     // TODO: Increment author's reputation by -5 for downVoting a question
     revalidatePath(path);
     return question;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function deleteQuestion(params: DeleteQuestionParams) {
+  try {
+    connectToDatabase();
+    const { questionId, path } = params;
+    await Promise.all([
+      Question.deleteOne({ _id: questionId }),
+
+      Answer.deleteMany({ question: questionId }),
+
+      Interaction.deleteMany({ question: questionId }),
+
+      Tag.updateMany(
+        { questions: questionId },
+        {
+          $pull: { questions: questionId },
+        },
+      ),
+    ]);
+
+    revalidatePath(path);
   } catch (error) {
     console.log(error);
     throw error;

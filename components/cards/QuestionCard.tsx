@@ -3,13 +3,15 @@ import React from "react";
 import { RenderTag } from "../shared/RenderTag";
 import { Metric } from "../shared/Metric";
 import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
+import { SignIn } from "@clerk/nextjs";
+import { EditDeleteAction } from "../shared/EditDeleteAction";
 
 interface Props {
   title: string;
   author: {
     name: string;
     picture: string;
-    id: string | number;
+    _id: string | number;
   };
   upVotes: number;
   views: number;
@@ -17,7 +19,7 @@ interface Props {
   answers: Array<object>;
   createdAt: Date;
   tags: {
-    id: number;
+    _id: number;
     name: string;
     picture: string;
   }[];
@@ -35,6 +37,9 @@ export const QuestionCard = ({
   id,
   clerkId,
 }: Props) => {
+  const showActionButtons = clerkId === author._id;
+  console.log(showActionButtons, "@showActionButtons", clerkId, author._id);
+
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
@@ -49,10 +54,13 @@ export const QuestionCard = ({
           </Link>
         </div>
         {/* If signed in add edit delete actions */}
+        {!showActionButtons && (
+          <EditDeleteAction type="question" id={JSON.stringify(id)} />
+        )}
       </div>
       <div className="mt-3.5 flex flex-wrap gap-2">
         {tags.map((item) => (
-          <RenderTag key={item.id} id={item.id} name={item.name} />
+          <RenderTag key={item._id} id={item._id} name={item.name} />
         ))}
       </div>
 
@@ -62,7 +70,7 @@ export const QuestionCard = ({
           alt="User"
           value={author.name || "Anonymous"}
           title={` - asked ${getTimestamp(createdAt)}`}
-          href={`/profile/${author.id}`}
+          href={`/profile/${author._id}`}
           textStyles="body-medium text-dark400_light700"
           isAuthor
         />
